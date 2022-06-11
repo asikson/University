@@ -1,4 +1,5 @@
 import data
+import costFunction as cf
 
 beta = 0.001
 
@@ -72,5 +73,7 @@ def algorithm(physicalNetwork, virtualNetwork):
     print(mapping)
     print('Link mapping: virtual link -> physical link') 
     print(linkMapping)
+
+    print('Cost function value: ', cf.costFunction(mapping, linkMapping, physicalNetwork, virtualNetwork))
 
 algorithm(data.physicalNetwork, data.virtualNetwork)

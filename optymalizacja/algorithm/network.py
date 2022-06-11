@@ -7,6 +7,9 @@ class PhysicalNetwork:
         self.links = links
         self.capacities = capacities
 
+    def getNode(self, i):
+        return self.nodes[i]
+
     def getLinkStress(self, v, u, bandwidth):
         return bandwidth / self.capacities[v][u]
 
@@ -15,6 +18,7 @@ class PhysicalNetwork:
             lambda x: self.links[i][x] == 1,
             list(range(self.n))
         ))
+
     def getCapacity(self, v, u):
         return self.capacities[v][u]
 
@@ -27,10 +31,10 @@ class PhysicalNetwork:
         paths[v] = []
 
         pq = queue.PriorityQueue()
-        pq.put((0, v))
+        pq.put(v)
 
         while not pq.empty():
-            (dist, current) = pq.get()
+            current = pq.get()
             visited.append(current)
             neighbours = self.getNeighbours(current)
             neighbours = list(filter(
@@ -45,7 +49,7 @@ class PhysicalNetwork:
                     newCost = d[current] + distance
                     newPath = paths[current] + [(current, n)]
                     if newCost < oldCost:
-                        pq.put((newCost, n))
+                        pq.put(n)
                         d[n] = newCost
                         paths[n] = newPath
 
@@ -66,6 +70,9 @@ class VirtualNetwork:
         self.nodes = nodes
         self.links = links
         self.capacities = capacities
+
+    def getNode(self, i):
+        return self.nodes[i]
     
     def getNeighbours(self, j):
         return list(filter(
